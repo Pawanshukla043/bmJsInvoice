@@ -1,0 +1,33 @@
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment Variables
+.env
+.env.local
+
+# Temporary Files
+*.tmp
+temp/
+
+# Node modules (if you add any build tools later)
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Personal notes
+notes.txt
+TODO.md

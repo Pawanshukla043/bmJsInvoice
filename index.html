@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluemoon Production - Music Production Company</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/invoice.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images/logo.svg" alt="Bluemoon Production" onerror="this.style.display='none'">
+                <span>Bluemoon Production</span>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#services" class="nav-link">Our Services</a></li>
+                <li><a href="#clients" class="nav-link">Our Clients</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+                <li class="invoice-menu" style="display: none;"><a href="invoice.html" target="_blank" class="nav-link">Generate Invoice</a></li>
+            </ul>
+            
+            <div class="nav-auth">
+                <button class="login-btn" id="loginBtn">Login</button>
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="profile-dropdown">
+                        <div class="profile-info">
+                            <p><strong id="profileName"></strong></p>
+                            <p id="profileEmail"></p>
+                            <p id="profileStage"></p>
+                        </div>
+                        <button class="logout-btn" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="home-section">
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920" alt="Music Production">
+                    <div class="slide-content">
+                        <h1>Professional Music Production</h1>
+                        <p>Transform your sound with industry-leading production quality</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920" alt="Recording Studio">
+                    <div class="slide-content">
+                        <h1>State-of-the-Art Studio</h1>
+                        <p>Experience world-class recording facilities and equipment</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920" alt="Mixing">
+                    <div class="slide-content">
+                        <h1>Expert Mixing & Mastering</h1>
+                        <p>Bring your tracks to life with professional audio engineering</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920" alt="Video Production">
+                    <div class="slide-content">
+                        <h1>Creative Video Production</h1>
+                        <p>Stunning visuals that complement your musical vision</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=1920" alt="Marketing">
+                    <div class="slide-content">
+                        <h1>Strategic Music Marketing</h1>
+                        <p>Amplify your reach with targeted promotion and distribution</p>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
+            <div class="slider-dots"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Video Production</h3>
+                    <p>High-quality music videos, promotional content, and visual storytelling that captures your artistic vision.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Music Production</h3>
+                    <p>Full-scale music production from composition to final mix, tailored to your unique sound.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>Mixing & Mastering</h3>
+                    <p>Professional audio engineering to ensure your tracks sound perfect on every platform.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-palette"></i>
+                    <h3>Graphic Designing</h3>
+                    <p>Eye-catching designs for album covers, promotional materials, and brand identity.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-wave-square"></i>
+                    <h3>Audio Visualizer</h3>
+                    <p>Dynamic audio visualizers for social media and streaming platforms.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-image"></i>
+                    <h3>Cover Arts</h3>
+                    <p>Custom cover artwork that represents your music and attracts listeners.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-film"></i>
+                    <h3>Video Editing</h3>
+                    <p>Professional video editing for music videos, documentaries, and promotional content.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Reel Editing</h3>
+                    <p>Engaging short-form content optimized for Instagram Reels and social media.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>PR & Marketing</h3>
+                    <p>Comprehensive marketing strategies, Spotify playlisting, and music distribution services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients-section">
+        <div class="container">
+            <h2 class="section-title">Our Clients & Previous Work</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-item active">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Artist Name - Track Title</h3>
+                            <p>Complete music production, mixing, and mastering for this breakthrough single. Achieved over 1M streams on Spotify within the first month.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Band Name - Album Production</h3>
+                            <p>Full album production including recording, mixing, mastering, and music video production for debut album.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Solo Artist - EP Release</h3>
+                            <p>Produced 5-track EP with complete marketing campaign and Spotify playlist placement.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Music Video Production</h3>
+                            <p>Cinematic music video with professional editing and color grading. Featured on major music blogs.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Brand Collaboration</h3>
+                            <p>Custom music production and sound design for commercial campaign.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Live Session Recording</h3>
+                            <p>Multi-camera live session recording with professional audio mixing.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-video">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="carousel-content">
+                            <h3>Podcast Production</h3>
+                            <p>Complete podcast production including recording, editing, and distribution setup.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="changeCarousel(-1)">&#10094;</button>
+                <button class="carousel-btn next" onclick="changeCarousel(1)">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Welcome to Bluemoon Production</h3>
+                    <p>Bluemoon Production is a premier music production company dedicated to bringing your musical vision to life. With years of experience in the industry, we've established ourselves as a trusted partner for artists, bands, and content creators.</p>
+                    
+                    <h4>Our Mission</h4>
+                    <p>To empower artists with world-class production services, cutting-edge technology, and creative expertise that transforms ideas into chart-topping reality.</p>
+                    
+                    <h4>What Sets Us Apart</h4>
+                    <ul>
+                        <li><strong>Industry Expertise:</strong> Our team consists of award-winning producers, engineers, and creative professionals.</li>
+                        <li><strong>State-of-the-Art Facilities:</strong> Equipped with the latest technology and premium equipment.</li>
+                        <li><strong>Comprehensive Services:</strong> From production to marketing, we handle every aspect of your project.</li>
+                        <li><strong>Artist-Centric Approach:</strong> We prioritize your vision and work collaboratively to achieve your goals.</li>
+                        <li><strong>Proven Track Record:</strong> Successfully delivered hundreds of projects with millions of streams.</li>
+                    </ul>
+                    
+                    <h4>Our Team</h4>
+                    <p>Our diverse team brings together talents from various disciplines - music production, audio engineering, video production, graphic design, and digital marketing. Together, we create comprehensive solutions that elevate your music career.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-content">
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">Full Name *</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactStageName">Stage Name</label>
+                        <input type="text" id="contactStageName">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactInstagram">Instagram URL</label>
+                        <input type="url" id="contactInstagram" placeholder="https://instagram.com/username">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email *</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone">Mobile Number *</label>
+                        <input type="tel" id="contactPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message *</label>
+                        <textarea id="contactMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Invoice Section -->
+    <section id="invoice" class="invoice-section" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">Generate Invoice</h2>
+            <form id="invoiceForm" class="invoice-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="invoiceNo">Invoice No. *</label>
+                        <input type="text" id="invoiceNo" required>
+                    </div>
+                </div>
+
+                <h3>From (Your Details)</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fromName">Company/Person Name *</label>
+                        <input type="text" id="fromName" value="Bluemoon Production" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromPhone">Mobile No. *</label>
+                        <input type="tel" id="fromPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fromEmail">Email *</label>
+                        <input type="email" id="fromEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromAddress">Address *</label>
+                        <input type="text" id="fromAddress" required>
+                    </div>
+                </div>
+
+                <h3>To (Client Details)</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="toName">Company/Person Name *</label>
+                        <input type="text" id="toName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="toPhone">Mobile No. *</label>
+                        <input type="tel" id="toPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="toEmail">Email *</label>
+                        <input type="email" id="toEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="toAddress">Address *</label>
+                        <input type="text" id="toAddress" required>
+                    </div>
+                </div>
+
+                <h3>Invoice Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="invoiceDate">Invoice Date *</label>
+                        <input type="date" id="invoiceDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="terms">Terms</label>
+                        <input type="text" id="terms" placeholder="e.g., Net 30">
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">Due Date *</label>
+                        <input type="date" id="dueDate" required>
+                    </div>
+                </div>
+
+                <h3>Item Details</h3>
+                <table class="items-table" id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th>Sl.No.</th>
+                            <th>Item & Description</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsBody">
+                        <tr class="item-row">
+                            <td>1</td>
+                            <td><input type="text" class="item-desc" placeholder="Item description" required></td>
+                            <td><input type="number" class="item-qty" value="1" min="1" required></td>
+                            <td><input type="number" class="item-amount" placeholder="0.00" step="0.01" required></td>
+                            <td><button type="button" class="remove-item" onclick="removeItem(this)">Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="add-item-btn" onclick="addItem()">Add Item</button>
+
+                <div class="invoice-totals">
+                    <div class="total-row">
+                        <label>Sub Total:</label>
+                        <span id="subTotal">0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <label>Total:</label>
+                        <span id="total">0.00</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="advancePayment">Advance Payment:</label>
+                        <input type="number" id="advancePayment" value="0" step="0.01">
+                    </div>
+                    <div class="total-row">
+                        <label>Balance Due:</label>
+                        <span id="balanceDue">0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <label>Total in Words:</label>
+                        <span id="totalWords"></span>
+                    </div>
+                </div>
+
+                <h3>Payment Details</h3>
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method *</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="bank">Bank Details</option>
+                        <option value="upi">UPI</option>
+                        <option value="both">Both</option>
+                    </select>
+                </div>
+
+                <div id="bankDetails" style="display: none;">
+                    <h4>Bank Details</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accountHolder">Account Holder Name</label>
+                            <input type="text" id="accountHolder">
+                        </div>
+                        <div class="form-group">
+                            <label for="bankName">Bank Name</label>
+                            <input type="text" id="bankName">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number</label>
+                            <input type="text" id="accountNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountType">Account Type</label>
+                            <input type="text" id="accountType" placeholder="Savings/Current">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ifscCode">IFSC Code</label>
+                            <input type="text" id="ifscCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="branch">Branch</label>
+                            <input type="text" id="branch">
+                        </div>
+                        <div class="form-group">
+                            <label for="swiftCode">SWIFT Code</label>
+                            <input type="text" id="swiftCode">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upiDetails" style="display: none;">
+                    <h4>UPI Details</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" id="upiId">
+                        </div>
+                        <div class="form-group">
+                            <label for="upiName">Name</label>
+                            <input type="text" id="upiName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="terms">Terms & Conditions</label>
+                    <textarea id="termsConditions" rows="4" placeholder="Enter terms and conditions"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Generate Invoice</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-icons">
+                    <i class="fas fa-guitar instrument-icon"></i>
+                    <i class="fas fa-drum instrument-icon"></i>
+                    <i class="fas fa-microphone instrument-icon"></i>
+                    <i class="fas fa-headphones instrument-icon"></i>
+                    <i class="fas fa-music instrument-icon"></i>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2024 Bluemoon Production. All Rights Reserved.</p>
+                    <p>Professional Music Production Services</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-spotify"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form">
+                <h2>Login</h2>
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Login</button>
+                    <p class="auth-switch">Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="auth-form" style="display: none;">
+                <h2>Sign Up</h2>
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label for="signupFullName">Full Name *</label>
+                        <input type="text" id="signupFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupStageName">Stage Name</label>
+                        <input type="text" id="signupStageName">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email *</label>
+                        <input type="email" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPhone">WhatsApp/Mobile Number *</label>
+                        <input type="tel" id="signupPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password *</label>
+                        <input type="password" id="signupPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Re-enter Password *</label>
+                        <input type="password" id="signupConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Sign Up</button>
+                    <p class="auth-switch">Already have an account? <a href="#" id="showLogin">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/invoice.js"></script>
+</body>
+</html>
