@@ -1,9 +1,9 @@
 // Google Apps Script Code
 // Deploy this as a Web App with "Anyone" access
 
-// CONFIGURATION - Update these IDs with your actual Google Sheets and Drive folder IDs
-const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE'; // Replace with your Google Sheets ID
-const DRIVE_FOLDER_ID = 'YOUR_DRIVE_FOLDER_ID_HERE'; // Replace with your Google Drive folder ID
+// CONFIGURATION - Your actual IDs
+const SPREADSHEET_ID = '1MaNVyZ_4qJ29I7jzxfCuZIIFCEAw8W5xQ8xolYAEOL8';
+const DRIVE_FOLDER_ID = '1t9584xnhVxqvMUrzDUn9e4y2pU-vpjZa';
 
 // Sheet names
 const SHEETS = {
@@ -59,7 +59,6 @@ function handleContactForm(data) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = ss.getSheetByName(SHEETS.CONTACT);
     
-    // Create sheet if it doesn't exist
     if (!sheet) {
       sheet = ss.insertSheet(SHEETS.CONTACT);
       sheet.appendRow(['Timestamp', 'Name', 'Stage Name', 'Instagram', 'Email', 'Phone', 'Message']);
@@ -87,13 +86,11 @@ function handleSignup(data) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = ss.getSheetByName(SHEETS.SIGNUP);
     
-    // Create sheet if it doesn't exist
     if (!sheet) {
       sheet = ss.insertSheet(SHEETS.SIGNUP);
       sheet.appendRow(['Timestamp', 'Full Name', 'Stage Name', 'Email', 'Phone', 'Password']);
     }
     
-    // Check if email already exists
     const dataRange = sheet.getDataRange().getValues();
     for (let i = 1; i < dataRange.length; i++) {
       if (dataRange[i][3] === data.email) {
@@ -107,7 +104,7 @@ function handleSignup(data) {
       data.stageName || '',
       data.email,
       data.phone,
-      data.password // In production, hash this password
+      data.password
     ]);
     
     return { success: true, message: 'Signup successful' };
@@ -128,7 +125,6 @@ function handleLogin(data) {
     
     const dataRange = sheet.getDataRange().getValues();
     
-    // Check credentials (skip header row)
     for (let i = 1; i < dataRange.length; i++) {
       const row = dataRange[i];
       if (row[3] === data.email && row[5] === data.password) {
@@ -156,62 +152,70 @@ function handleInvoice(data) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = ss.getSheetByName(SHEETS.INVOICE);
     
-    // Create sheet if it doesn't exist
     if (!sheet) {
       sheet = ss.insertSheet(SHEETS.INVOICE);
-      sheet.appendRow(['Timestamp', 'Invoice No', 'Customer Name', 'Contact No', 'Date', 'Advance Amount', 'Total Amount']);
+      sheet.appendRow(['Invoice Number', 'Timestamp', 'Customer Name', 'Customer Email', 'Customer Phone', 'Invoice Date', 'Due Date', 'Subtotal', 'Advance Payment', 'Balance Due', 'Total Amount', 'Payment Method', 'Status', 'PDF URL', 'Terms', 'UPI ID']);
     }
     
-    // Save invoice data to sheet
+    // Generate PDF first
+    const pdfBlob = generateInvoicePDF(data);
+    let pdfUrl = '';
+    
+    try {
+      const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+      const file = folder.createFile(pdfBlob);
+      pdfUrl = file.getUrl();
+    } catch (driveError) {
+      pdfUrl = 'Error: ' + driveError.toString();
+    }
+    
+    // Save invoice data to sheet with all columns
     sheet.appendRow([
-      new Date(),
       data.invoiceNo,
+      new Date(),
       data.to.name,
+      data.to.email,
       data.to.phone,
       data.invoiceDate,
+      data.dueDate,
+      data.subTotal,
       data.advancePayment,
-      data.total
+      data.balanceDue,
+      data.total,
+      data.paymentMethod,
+      'Generated',
+      pdfUrl,
+      data.terms || '',
+      data.paymentDetails.upi ? data.paymentDetails.upi.upiId : ''
     ]);
-    
-    // Generate PDF
-    const pdfBlob = generateInvoicePDF(data);
-    
-    // Save to Google Drive
-    const folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
-    const file = folder.createFile(pdfBlob);
     
     return {
       success: true,
       message: 'Invoice generated successfully',
       invoiceNo: data.invoiceNo,
-      fileId: file.getId(),
-      fileUrl: file.getUrl()
+      pdfUrl: pdfUrl
     };
+    
   } catch (error) {
     return { success: false, error: error.toString() };
   }
 }
 
-// Generate Invoice PDF using HTML Service
+// Generate Invoice PDF
 function generateInvoicePDF(data) {
   const html = generateInvoiceHTML(data);
-  
-  // Create PDF from HTML
   const blob = Utilities.newBlob(html, 'text/html', 'invoice.html')
     .getAs('application/pdf')
     .setName('Invoice_' + data.invoiceNo + '.pdf');
-  
   return blob;
 }
 
 // Generate Invoice HTML
 function generateInvoiceHTML(data) {
   let itemsHTML = '';
-  let itemTotal = 0;
   
   data.items.forEach(item => {
     const lineTotal = parseFloat(item.qty) * parseFloat(item.amount);
-    itemTotal += lineTotal;
     itemsHTML += `
       <tr>
         <td style="border: 1px solid #ddd; padding: 8px;">${item.slNo}</td>
@@ -240,15 +244,38 @@ function generateInvoiceHTML(data) {
     `;
   }
   
+  // UPI Payment with QR Code
   if (data.paymentDetails.upi) {
     const upi = data.paymentDetails.upi;
-    paymentHTML += `
-      <div style="margin-top: 20px;">
-        <h3 style="color: #1a1a2e; border-bottom: 2px solid #e94560; padding-bottom: 5px;">UPI Details</h3>
-        <p><strong>UPI ID:</strong> ${upi.upiId || 'N/A'}</p>
-        <p><strong>Name:</strong> ${upi.name || 'N/A'}</p>
-      </div>
-    `;
+    const upiId = upi.upiId || '';
+    const advanceAmount = parseFloat(data.advancePayment) || 0;
+    
+    // Use the QR code image data sent from client
+    const qrBase64 = data.qrCodeBase64 || '';
+    
+    if (qrBase64) {
+      paymentHTML += `
+        <div style="margin-top: 20px; text-align: center; border: 2px solid #e94560; padding: 20px; border-radius: 10px; page-break-inside: avoid;">
+          <h3 style="color: #1a1a2e; margin-top: 0;">UPI Payment</h3>
+          <p style="font-size: 16px; margin: 10px 0;"><strong>Scan to Pay Advance: ₹${advanceAmount.toFixed(2)}</strong></p>
+          <div style="background: white; padding: 10px; display: inline-block; margin: 15px 0;">
+            <img src="${qrBase64}" alt="UPI QR Code" style="width: 200px; height: 200px; display: block;" />
+          </div>
+          <p style="margin: 10px 0;"><strong>UPI ID:</strong> ${upiId}</p>
+          <p style="margin: 5px 0;"><strong>Name:</strong> ${upi.name || 'Bluemoon Production'}</p>
+          <p style="font-size: 11px; color: #666; margin-top: 10px;">Scan with Google Pay, PhonePe, Paytm or any UPI app</p>
+        </div>
+      `;
+    } else {
+      paymentHTML += `
+        <div style="margin-top: 20px; border: 2px solid #e94560; padding: 20px; border-radius: 10px;">
+          <h3 style="color: #1a1a2e; border-bottom: 2px solid #e94560; padding-bottom: 5px;">UPI Payment Details</h3>
+          <p><strong>Pay Advance Amount:</strong> ₹${advanceAmount.toFixed(2)}</p>
+          <p><strong>UPI ID:</strong> ${upiId}</p>
+          <p><strong>Name:</strong> ${upi.name || 'Bluemoon Production'}</p>
+        </div>
+      `;
+    }
   }
   
   return `
