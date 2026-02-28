@@ -138,7 +138,9 @@ loginFormElement.addEventListener('submit', async (e) => {
                 fullName: result.user.fullName,
                 stageName: result.user.stageName,
                 email: result.user.email,
-                phone: result.user.phone
+                phone: result.user.phone,
+                status: result.user.status,
+                role: result.user.role
             };
             
             localStorage.setItem('user', JSON.stringify(user));
@@ -151,7 +153,12 @@ loginFormElement.addEventListener('submit', async (e) => {
                 loginFormElement.reset();
             }, 1000);
         } else {
-            showError('Invalid email or password!');
+            // Check if it's an inactive account error
+            if (result.error && result.error.includes('not active')) {
+                showError('⚠️ Account not activated! Please contact admin for approval.');
+            } else {
+                showError(result.error || 'Invalid email or password!');
+            }
         }
         
     } catch (error) {

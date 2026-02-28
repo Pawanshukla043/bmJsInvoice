@@ -162,8 +162,13 @@ window.addEventListener('DOMContentLoaded', () => {
 function showUserProfile(user) {
     document.getElementById('loginBtn').style.display = 'none';
     document.getElementById('userProfile').style.display = 'block';
-    document.querySelector('.invoice-menu').style.display = 'block';
-    document.getElementById('invoice').style.display = 'block';
+    
+    // Show invoice menu only if role is Admin
+    if (user.role == 'Admin') {
+        document.querySelector('.invoice-menu').style.display = 'block';
+    } else {
+        document.querySelector('.invoice-menu').style.display = 'none';
+    }
     
     document.getElementById('profileName').textContent = user.fullName;
     document.getElementById('profileEmail').textContent = user.email;

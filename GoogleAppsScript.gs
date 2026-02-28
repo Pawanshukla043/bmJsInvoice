@@ -88,7 +88,7 @@ function handleSignup(data) {
     
     if (!sheet) {
       sheet = ss.insertSheet(SHEETS.SIGNUP);
-      sheet.appendRow(['Timestamp', 'Full Name', 'Stage Name', 'Email', 'Phone', 'Password']);
+      sheet.appendRow(['Timestamp', 'Full Name', 'Stage Name', 'Email', 'Phone', 'Password', 'Status', 'Role']);
     }
     
     const dataRange = sheet.getDataRange().getValues();
@@ -104,10 +104,12 @@ function handleSignup(data) {
       data.stageName || '',
       data.email,
       data.phone,
-      data.password
+      data.password,
+      'Inactive',
+      'User'
     ]);
     
-    return { success: true, message: 'Signup successful' };
+    return { success: true, message: 'Signup successful. Wait for admin approval.' };
   } catch (error) {
     return { success: false, error: error.toString() };
   }
@@ -128,13 +130,24 @@ function handleLogin(data) {
     for (let i = 1; i < dataRange.length; i++) {
       const row = dataRange[i];
       if (row[3] === data.email && row[5] === data.password) {
+        // Check status (column G = index 6)
+        const status = row[6] || 'Inactive';
+        if (status !== 'Active') {
+          return { success: false, error: 'Account not active. Contact admin for approval.' };
+        }
+        
+        // Get role (column H = index 7)
+        const role = row[7] || 'User';
+        
         return {
           success: true,
           user: {
             fullName: row[1],
             stageName: row[2],
             email: row[3],
-            phone: row[4]
+            phone: row[4],
+            status: status,
+            role: role
           }
         };
       }
