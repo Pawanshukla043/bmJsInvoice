@@ -250,38 +250,29 @@ function generateInvoiceHTML(data) {
     const upiId = upi.upiId || '';
     const advanceAmount = parseFloat(data.advancePayment) || 0;
     
-    // Generate UPI payment string
-    const upiString = `upi://pay?pa=${upiId}&pn=${upi.name || 'Bluemoon Production'}&am=${advanceAmount}&cu=INR&tn=Invoice ${data.invoiceNo}`;
+    // Use the QR code image data sent from client
+    const qrBase64 = data.qrCodeBase64 || '';
     
-    // Generate QR code as base64 using Google Charts API
-    const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl=${encodeURIComponent(upiString)}`;
-    
-    try {
-      const qrResponse = UrlFetchApp.fetch(qrUrl);
-      const qrBlob = qrResponse.getBlob();
-      const qrBase64 = Utilities.base64Encode(qrBlob.getBytes());
-      
+    if (qrBase64) {
       paymentHTML += `
         <div style="margin-top: 20px; text-align: center; border: 2px solid #e94560; padding: 20px; border-radius: 10px; page-break-inside: avoid;">
           <h3 style="color: #1a1a2e; margin-top: 0;">UPI Payment</h3>
-          <p><strong>Scan to Pay Advance Amount: ₹${advanceAmount.toFixed(2)}</strong></p>
-          <div style="margin: 15px 0;">
-            <img src="data:image/png;base64,${qrBase64}" alt="UPI QR Code" style="width: 200px; height: 200px; display: block; margin: 0 auto;" />
+          <p style="font-size: 16px; margin: 10px 0;"><strong>Scan to Pay Advance: ₹${advanceAmount.toFixed(2)}</strong></p>
+          <div style="background: white; padding: 10px; display: inline-block; margin: 15px 0;">
+            <img src="${qrBase64}" alt="UPI QR Code" style="width: 200px; height: 200px; display: block;" />
           </div>
-          <p><strong>UPI ID:</strong> ${upiId}</p>
-          <p><strong>Name:</strong> ${upi.name || 'N/A'}</p>
-          <p style="font-size: 12px; color: #666; margin-top: 10px;">Scan with any UPI app (Google Pay, PhonePe, Paytm, etc.)</p>
+          <p style="margin: 10px 0;"><strong>UPI ID:</strong> ${upiId}</p>
+          <p style="margin: 5px 0;"><strong>Name:</strong> ${upi.name || 'Bluemoon Production'}</p>
+          <p style="font-size: 11px; color: #666; margin-top: 10px;">Scan with Google Pay, PhonePe, Paytm or any UPI app</p>
         </div>
       `;
-    } catch (e) {
-      // Fallback if QR generation fails
+    } else {
       paymentHTML += `
         <div style="margin-top: 20px; border: 2px solid #e94560; padding: 20px; border-radius: 10px;">
           <h3 style="color: #1a1a2e; border-bottom: 2px solid #e94560; padding-bottom: 5px;">UPI Payment Details</h3>
           <p><strong>Pay Advance Amount:</strong> ₹${advanceAmount.toFixed(2)}</p>
           <p><strong>UPI ID:</strong> ${upiId}</p>
-          <p><strong>Name:</strong> ${upi.name || 'N/A'}</p>
-          <p style="font-size: 12px; color: #666;">Use any UPI app to pay</p>
+          <p><strong>Name:</strong> ${upi.name || 'Bluemoon Production'}</p>
         </div>
       `;
     }

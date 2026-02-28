@@ -186,6 +186,29 @@ invoiceForm.addEventListener('submit', async (e) => {
         termsConditions: document.getElementById('termsConditions').value
     };
     
+    // Generate QR code if UPI payment
+    if (paymentDetails.upi && paymentDetails.upi.upiId) {
+        const upiString = `upi://pay?pa=${paymentDetails.upi.upiId}&pn=${paymentDetails.upi.name || 'Bluemoon Production'}&am=${invoiceData.advancePayment}&cu=INR&tn=Invoice ${invoiceData.invoiceNo}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiString)}`;
+        
+        try {
+            // Fetch QR code and convert to base64
+            const response = await fetch(qrUrl);
+            const blob = await response.blob();
+            const reader = new FileReader();
+            
+            await new Promise((resolve) => {
+                reader.onloadend = () => {
+                    invoiceData.qrCodeBase64 = reader.result;
+                    resolve();
+                };
+                reader.readAsDataURL(blob);
+            });
+        } catch (error) {
+            console.log('QR code generation failed:', error);
+        }
+    }
+    
     try {
         showInvoiceLoading(true, 'Generating invoice...');
         
