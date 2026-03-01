@@ -187,7 +187,7 @@ contactForm.addEventListener('submit', async (e) => {
         contactForm.reset();
     } catch (error) {
         console.error('Error:', error);
-        alert('Message sent successfully! We will contact you soon.');
+        customAlert('Message sent successfully! We will contact you soon.', 'Success', '✓');
         contactForm.reset();
     }
 });
@@ -240,12 +240,12 @@ function addMobileProfile(user) {
     navMenu.appendChild(mobileProfile);
     
     // Add logout handler
-    document.getElementById('mobileLogoutBtn').addEventListener('click', () => {
+    document.getElementById('mobileLogoutBtn').addEventListener('click', async () => {
         localStorage.removeItem('user');
         hideUserProfile();
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
-        alert('Logged out successfully!');
+        await customAlert('Logged out successfully!', 'Success', '✓');
     });
 }
 

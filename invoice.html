@@ -30,6 +30,16 @@
         <div class="invoice-header">
             <h1>Generate Invoice</h1>
             <p>Create professional invoices for your clients</p>
+            <button class="view-invoices-btn" id="viewInvoicesBtn">📋 View Invoice List</button>
+        </div>
+
+        <!-- Invoice List Modal -->
+        <div id="invoiceListModal" class="invoice-modal" style="display: none;">
+            <div class="invoice-modal-content">
+                <span class="close-invoice-modal">&times;</span>
+                <h2>Invoice List</h2>
+                <div id="invoiceListContainer" class="invoice-list"></div>
+            </div>
         </div>
 
         <form id="invoiceForm" class="invoice-form">
@@ -200,11 +210,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="upiId">UPI ID *</label>
-                        <input type="text" id="upiId" placeholder="yourname@upi">
+                        <input type="text" id="upiId" placeholder="yourname@upi" value="bluemoonproduction@ybl">
                     </div>
                     <div class="form-group">
                         <label for="upiName">Name</label>
-                        <input type="text" id="upiName">
+                        <input type="text" id="upiName" value="Bluemoon Production">
                     </div>
                 </div>
             </div>
@@ -219,6 +229,7 @@
     </div>
 
     <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/invoice.js"></script>
 </body>
 </html>

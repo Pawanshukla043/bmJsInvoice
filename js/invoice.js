@@ -45,13 +45,13 @@ function addItem() {
 }
 
 // Remove item row
-function removeItem(button) {
+async function removeItem(button) {
     if (itemsBody.querySelectorAll('.item-row').length > 1) {
         button.closest('.item-row').remove();
         updateRowNumbers();
         calculateTotals();
     } else {
-        alert('At least one item is required!');
+        await customAlert('At least one item is required!', 'Warning', '⚠️');
     }
 }
 
@@ -225,17 +225,17 @@ invoiceForm.addEventListener('submit', async (e) => {
         showInvoiceLoading(false);
         
         if (result.success) {
-            alert(`Invoice generated successfully!\nInvoice No: ${invoiceData.invoiceNo}\nPDF saved to Google Drive.`);
+            await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF saved to Google Drive.`, 'Success', '✓');
             invoiceForm.reset();
             calculateTotals();
         } else {
-            alert('Error generating invoice: ' + (result.error || 'Unknown error'));
+            await customAlert('Error generating invoice: ' + (result.error || 'Unknown error'), 'Error', '✕');
         }
         
     } catch (error) {
         showInvoiceLoading(false);
         console.error('Error:', error);
-        alert(`Invoice generated successfully!\nInvoice No: ${invoiceData.invoiceNo}\nPDF will be saved to Google Drive.`);
+        await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF will be saved to Google Drive.`, 'Success', '✓');
         invoiceForm.reset();
         calculateTotals();
     }
@@ -284,3 +284,154 @@ function generateInvoiceNumber() {
 
 // Set default invoice number
 document.getElementById('invoiceNo').value = generateInvoiceNumber();
+
+
+// Invoice List Functionality
+const viewInvoicesBtn = document.getElementById('viewInvoicesBtn');
+const invoiceListModal = document.getElementById('invoiceListModal');
+const closeInvoiceModal = document.querySelector('.close-invoice-modal');
+const invoiceListContainer = document.getElementById('invoiceListContainer');
+
+// Open invoice list
+viewInvoicesBtn.addEventListener('click', async () => {
+    await loadInvoiceList();
+    invoiceListModal.style.display = 'block';
+});
+
+// Close modal
+closeInvoiceModal.addEventListener('click', () => {
+    invoiceListModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === invoiceListModal) {
+        invoiceListModal.style.display = 'none';
+    }
+});
+
+// Load invoice list
+async function loadInvoiceList() {
+    try {
+        invoiceListContainer.innerHTML = '<p>Loading invoices...</p>';
+        
+        const response = await fetch(CONFIG.SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: JSON.stringify({ action: CONFIG.ACTIONS.GET_INVOICES })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.invoices.length > 0) {
+            invoiceListContainer.innerHTML = result.invoices.map(invoice => `
+                <div class="invoice-item">
+                    <div class="invoice-info">
+                        <h3>Invoice #${invoice.invoiceNo}</h3>
+                        <p><strong>Customer:</strong> ${invoice.customerName}</p>
+                        <p><strong>Email:</strong> ${invoice.customerEmail}</p>
+                        <p><strong>Amount:</strong> ₹${invoice.totalAmount}</p>
+                        <p><strong>Date:</strong> ${new Date(invoice.timestamp).toLocaleDateString()}</p>
+                        <p><strong>Status:</strong> <span style="color: #28a745;">${invoice.status}</span></p>
+                    </div>
+                    <div class="invoice-actions">
+                        <button class="invoice-btn preview-btn" onclick="previewInvoice('${invoice.pdfUrl}')">
+                            👁️ Preview
+                        </button>
+                        <button class="invoice-btn share-btn" onclick="shareInvoice('${invoice.pdfUrl}', '${invoice.invoiceNo}')">
+                            📤 Share
+                        </button>
+                        <button class="invoice-btn edit-btn" onclick="editInvoice('${invoice.invoiceNo}')">
+                            ✏️ Edit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            invoiceListContainer.innerHTML = '<p style="text-align: center; color: #666;">No invoices found.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading invoices:', error);
+        invoiceListContainer.innerHTML = '<p style="text-align: center; color: #e94560;">Error loading invoices. Please try again.</p>';
+    }
+}
+
+// Preview invoice
+async function previewInvoice(pdfUrl) {
+    if (pdfUrl && !pdfUrl.includes('Error')) {
+        window.open(pdfUrl, '_blank');
+    } else {
+        await customAlert('PDF not available for this invoice.', 'Not Available', 'ℹ️');
+    }
+}
+
+// Share invoice
+async function shareInvoice(pdfUrl, invoiceNo) {
+    if (pdfUrl && !pdfUrl.includes('Error')) {
+        if (navigator.share) {
+            navigator.share({
+                title: `Invoice ${invoiceNo}`,
+                text: `Invoice ${invoiceNo} from Bluemoon Production`,
+                url: pdfUrl
+            }).catch(err => console.log('Error sharing:', err));
+        } else {
+            // Fallback: copy to clipboard
+            navigator.clipboard.writeText(pdfUrl).then(async () => {
+                await customAlert('Invoice link copied to clipboard!', 'Copied', '📋');
+            }).catch(() => {
+                prompt('Copy this link:', pdfUrl);
+            });
+        }
+    } else {
+        await customAlert('PDF not available for this invoice.', 'Not Available', 'ℹ️');
+    }
+}
+
+// Edit invoice
+async function editInvoice(invoiceNo) {
+    try {
+        const response = await fetch(CONFIG.SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: JSON.stringify({ 
+                action: CONFIG.ACTIONS.GET_INVOICE_DETAILS,
+                invoiceNo: invoiceNo
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            const inv = result.invoice;
+            
+            // Fill form with invoice data
+            document.getElementById('invoiceNo').value = inv.invoiceNo;
+            document.getElementById('toName').value = inv.customerName;
+            document.getElementById('toEmail').value = inv.customerEmail;
+            document.getElementById('toPhone').value = inv.customerPhone;
+            document.getElementById('invoiceDate').value = inv.invoiceDate;
+            document.getElementById('dueDate').value = inv.dueDate;
+            document.getElementById('terms').value = inv.terms || '';
+            document.getElementById('advancePayment').value = inv.advancePayment;
+            document.getElementById('paymentMethod').value = inv.paymentMethod;
+            
+            if (inv.upiId) {
+                document.getElementById('upiId').value = inv.upiId;
+            }
+            
+            // Close modal and scroll to form
+            invoiceListModal.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            await customAlert('Invoice loaded for editing.<br><br>Note: This will create a new invoice when submitted.', 'Invoice Loaded', 'ℹ️');
+        } else {
+            await customAlert('Error loading invoice details: ' + result.error, 'Error', '✕');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        await customAlert('Error loading invoice details.', 'Error', '✕');
+    }
+}

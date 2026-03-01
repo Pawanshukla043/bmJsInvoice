@@ -186,37 +186,19 @@ loginFormElement.addEventListener('submit', async (e) => {
 });
 
 // Logout
-logoutBtn.addEventListener('click', () => {
+logoutBtn.addEventListener('click', async () => {
     localStorage.removeItem('user');
     hideUserProfile();
-    alert('Logged out successfully!');
+    await customAlert('Logged out successfully!', 'Success', '✓');
 });
 
 // Helper functions
-function showError(message) {
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message show';
-    errorDiv.textContent = message;
-    
-    const activeForm = loginForm.style.display === 'block' ? loginFormElement : signupFormElement;
-    activeForm.insertBefore(errorDiv, activeForm.firstChild);
-    
-    setTimeout(() => {
-        errorDiv.remove();
-    }, 3000);
+async function showError(message) {
+    await customAlert(message, 'Error', '✕');
 }
 
-function showSuccess(message) {
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-message show';
-    successDiv.textContent = message;
-    
-    const activeForm = loginForm.style.display === 'block' ? loginFormElement : signupFormElement;
-    activeForm.insertBefore(successDiv, activeForm.firstChild);
-    
-    setTimeout(() => {
-        successDiv.remove();
-    }, 3000);
+async function showSuccess(message) {
+    await customAlert(message, 'Success', '✓');
 }
 
 function showLoading(show) {

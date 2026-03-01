@@ -33,6 +33,12 @@ function doPost(e) {
       case 'generateInvoice':
         result = handleInvoice(data);
         break;
+      case 'getInvoices':
+        result = getInvoices(data);
+        break;
+      case 'getInvoiceDetails':
+        result = getInvoiceDetails(data);
+        break;
       default:
         result = { success: false, error: 'Invalid action' };
     }
@@ -467,4 +473,82 @@ function generateInvoiceHTML(data) {
     </body>
     </html>
   `;
+}
+
+// Get Invoice List
+function getInvoices(data) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEETS.INVOICE);
+    
+    if (!sheet) {
+      return { success: true, invoices: [] };
+    }
+    
+    const dataRange = sheet.getDataRange().getValues();
+    const invoices = [];
+    
+    // Skip header row
+    for (let i = 1; i < dataRange.length; i++) {
+      const row = dataRange[i];
+      invoices.push({
+        invoiceNo: row[0],
+        timestamp: row[1],
+        customerName: row[2],
+        customerEmail: row[3],
+        totalAmount: row[10],
+        status: row[12],
+        pdfUrl: row[13],
+        rowIndex: i + 1
+      });
+    }
+    
+    // Return in reverse order (newest first)
+    return { success: true, invoices: invoices.reverse() };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
+}
+
+// Get Invoice Details for Edit
+function getInvoiceDetails(data) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEETS.INVOICE);
+    
+    if (!sheet) {
+      return { success: false, error: 'No invoices found' };
+    }
+    
+    const dataRange = sheet.getDataRange().getValues();
+    
+    // Find invoice by invoice number
+    for (let i = 1; i < dataRange.length; i++) {
+      const row = dataRange[i];
+      if (row[0] === data.invoiceNo) {
+        return {
+          success: true,
+          invoice: {
+            invoiceNo: row[0],
+            customerName: row[2],
+            customerEmail: row[3],
+            customerPhone: row[4],
+            invoiceDate: row[5],
+            dueDate: row[6],
+            subTotal: row[7],
+            advancePayment: row[8],
+            balanceDue: row[9],
+            total: row[10],
+            paymentMethod: row[11],
+            terms: row[14],
+            upiId: row[15]
+          }
+        };
+      }
+    }
+    
+    return { success: false, error: 'Invoice not found' };
+  } catch (error) {
+    return { success: false, error: error.toString() };
+  }
 }
