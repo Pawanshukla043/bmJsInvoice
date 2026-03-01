@@ -225,7 +225,7 @@ invoiceForm.addEventListener('submit', async (e) => {
         showInvoiceLoading(false);
         
         if (result.success) {
-            await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF saved to Google Drive.`, 'Success', '✓');
+            await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF saved to Google Drive.`, 'Success', '✓', true);
             invoiceForm.reset();
             calculateTotals();
         } else {
@@ -235,7 +235,7 @@ invoiceForm.addEventListener('submit', async (e) => {
     } catch (error) {
         showInvoiceLoading(false);
         console.error('Error:', error);
-        await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF will be saved to Google Drive.`, 'Success', '✓');
+        await customAlert(`Invoice generated successfully!<br><strong>Invoice No:</strong> ${invoiceData.invoiceNo}<br>PDF will be saved to Google Drive.`, 'Success', '✓', true);
         invoiceForm.reset();
         calculateTotals();
     }
@@ -360,7 +360,35 @@ async function loadInvoiceList() {
 // Preview invoice
 async function previewInvoice(pdfUrl) {
     if (pdfUrl && !pdfUrl.includes('Error')) {
-        window.open(pdfUrl, '_blank');
+        // Extract file ID from Google Drive URL
+        let fileId = '';
+        if (pdfUrl.includes('/d/')) {
+            fileId = pdfUrl.split('/d/')[1].split('/')[0];
+        } else if (pdfUrl.includes('id=')) {
+            fileId = pdfUrl.split('id=')[1].split('&')[0];
+        }
+        
+        // Use Google Drive preview URL
+        const previewUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : pdfUrl;
+        
+        // Create preview modal
+        const previewModal = document.createElement('div');
+        previewModal.className = 'invoice-modal';
+        previewModal.style.display = 'block';
+        previewModal.innerHTML = `
+            <div class="invoice-modal-content" style="height: 85vh;">
+                <span class="close-invoice-modal" onclick="this.closest('.invoice-modal').remove()">&times;</span>
+                <h2>Invoice Preview</h2>
+                <iframe src="${previewUrl}" style="width: 100%; height: calc(100% - 100px); border: none; border-radius: 5px; margin-top: 20px;" allow="autoplay"></iframe>
+            </div>
+        `;
+        document.body.appendChild(previewModal);
+        
+        previewModal.addEventListener('click', (e) => {
+            if (e.target === previewModal) {
+                previewModal.remove();
+            }
+        });
     } else {
         await customAlert('PDF not available for this invoice.', 'Not Available', 'ℹ️');
     }

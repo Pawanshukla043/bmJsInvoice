@@ -289,21 +289,40 @@
 
 
 /* Invoice List Styles */
+.top-nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
 .view-invoices-btn {
     background: #28a745;
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    margin-left: 20px;
     transition: all 0.3s;
 }
 
 .view-invoices-btn:hover {
     background: #218838;
     transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .top-nav-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .back-btn, .view-invoices-btn {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 .invoice-modal {

@@ -9,28 +9,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background: #f5f5f5; padding: 20px; }
+        .top-nav-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .invoice-header { text-align: center; margin-bottom: 30px; }
-        .invoice-header h1 { color: #1a1a2e; }
+        .invoice-header h1 { color: #1a1a2e; margin-bottom: 10px; }
+        .invoice-header p { color: #666; margin: 0; }
         .back-btn { 
             display: inline-block; 
             padding: 10px 20px; 
             background: #e94560; 
             color: white; 
             text-decoration: none; 
-            border-radius: 5px; 
-            margin-bottom: 20px;
+            border-radius: 5px;
         }
         .back-btn:hover { background: #d63850; }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <div class="top-nav-bar">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <button class="view-invoices-btn" id="viewInvoicesBtn">📋 View Invoice List</button>
+        </div>
         
         <div class="invoice-header">
             <h1>Generate Invoice</h1>
             <p>Create professional invoices for your clients</p>
-            <button class="view-invoices-btn" id="viewInvoicesBtn">📋 View Invoice List</button>
         </div>
 
         <!-- Invoice List Modal -->
