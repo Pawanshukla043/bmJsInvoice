@@ -173,13 +173,49 @@ function showUserProfile(user) {
     document.getElementById('profileName').textContent = user.fullName;
     document.getElementById('profileEmail').textContent = user.email;
     document.getElementById('profileStage').textContent = user.stageName ? `Stage: ${user.stageName}` : '';
+    
+    // Add mobile profile to menu
+    addMobileProfile(user);
+}
+
+function addMobileProfile(user) {
+    // Remove existing mobile profile if any
+    const existingMobile = document.querySelector('.mobile-profile');
+    if (existingMobile) existingMobile.remove();
+    
+    // Create mobile profile element
+    const mobileProfile = document.createElement('li');
+    mobileProfile.className = 'mobile-profile';
+    mobileProfile.innerHTML = `
+        <div class="profile-info">
+            <p><strong>${user.fullName}</strong></p>
+            <p>${user.email}</p>
+            ${user.stageName ? `<p>Stage: ${user.stageName}</p>` : ''}
+        </div>
+        <button class="logout-btn" id="mobileLogoutBtn">Logout</button>
+    `;
+    
+    // Add to nav menu
+    navMenu.appendChild(mobileProfile);
+    
+    // Add logout handler
+    document.getElementById('mobileLogoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('user');
+        hideUserProfile();
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        alert('Logged out successfully!');
+    });
 }
 
 function hideUserProfile() {
     document.getElementById('loginBtn').style.display = 'block';
     document.getElementById('userProfile').style.display = 'none';
     document.querySelector('.invoice-menu').style.display = 'none';
-    document.getElementById('invoice').style.display = 'none';
+    
+    // Remove mobile profile
+    const mobileProfile = document.querySelector('.mobile-profile');
+    if (mobileProfile) mobileProfile.remove();
 }
 
 // Service cards hover effect

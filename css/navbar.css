@@ -229,23 +229,49 @@
     }
 
     .nav-auth {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
+        display: none;
     }
 
-    .login-btn {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    /* Show profile in menu on mobile */
+    .nav-menu .mobile-profile {
+        display: block;
+        padding: 20px;
+        border-top: 2px solid var(--highlight-color);
     }
 
-    .profile-dropdown {
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%) translateY(-10px);
+    .mobile-profile .profile-info {
+        color: var(--text-light);
+        text-align: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 15px;
+        text-transform: uppercase;
     }
 
-    .user-profile:hover .profile-dropdown {
-        transform: translateX(-50%) translateY(0);
+    .mobile-profile .profile-info p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .mobile-profile .logout-btn {
+        width: 100%;
+        background: var(--highlight-color);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .mobile-profile .logout-btn:hover {
+        background: #d63850;
+    }
+}
+
+/* Hide mobile profile on desktop */
+@media (min-width: 769px) {
+    .mobile-profile {
+        display: none !important;
     }
 }
