@@ -65,6 +65,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 const dotsContainer = document.querySelector('.slider-dots');
+const sliderContainer = document.querySelector('.slider-container');
+let autoSlideInterval;
 
 // Create dots
 slides.forEach((_, index) => {
@@ -85,6 +87,14 @@ function showSlide(n) {
     
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
+    
+    // Scroll to slide on mobile
+    if (window.innerWidth <= 768) {
+        sliderContainer.scrollTo({
+            left: currentSlide * sliderContainer.offsetWidth,
+            behavior: 'smooth'
+        });
+    }
 }
 
 function changeSlide(n) {
@@ -95,10 +105,41 @@ function goToSlide(n) {
     showSlide(n);
 }
 
-// Auto slide
-setInterval(() => {
-    changeSlide(1);
-}, 5000);
+// Auto slide function
+function startAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+        changeSlide(1);
+    }, 5000);
+}
+
+// Stop auto slide
+function stopAutoSlide() {
+    clearInterval(autoSlideInterval);
+}
+
+// Start auto slide
+startAutoSlide();
+
+// Pause on hover (desktop only)
+if (window.innerWidth > 768) {
+    sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+    sliderContainer.addEventListener('mouseleave', startAutoSlide);
+}
+
+// Update slide on manual scroll (mobile)
+if (window.innerWidth <= 768) {
+    sliderContainer.addEventListener('scroll', () => {
+        const scrollPosition = sliderContainer.scrollLeft;
+        const slideWidth = sliderContainer.offsetWidth;
+        const newSlide = Math.round(scrollPosition / slideWidth);
+        
+        if (newSlide !== currentSlide) {
+            currentSlide = newSlide;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentSlide].classList.add('active');
+        }
+    });
+}
 
 // Clients Carousel
 let currentCarouselItem = 0;

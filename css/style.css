@@ -529,16 +529,80 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .carousel-item.active {
+    /* Slider mobile responsive */
+    .slider-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .slider {
+        display: flex;
+        width: auto;
+    }
+
+    .slide {
+        position: relative;
+        min-width: 100%;
+        scroll-snap-align: start;
+        opacity: 1;
+    }
+
+    .slider-btn {
+        display: none;
+    }
+
+    .slider-dots {
+        bottom: 10px;
+    }
+
+    .dot {
+        display: none;
+    }
+
+    /* Carousel mobile responsive */
+    .carousel-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .carousel {
+        display: flex;
+        width: auto;
+        height: auto;
+    }
+
+    .carousel-item {
+        position: relative;
+        min-width: 100%;
+        scroll-snap-align: start;
+        display: flex;
         flex-direction: column;
+        opacity: 1;
+        padding: 20px;
     }
 
-    .carousel-btn.prev {
-        left: 10px;
+    .carousel-item.active {
+        display: flex;
     }
 
-    .carousel-btn.next {
-        right: 10px;
+    .carousel-btn {
+        display: none;
+    }
+
+    .carousel-video {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .carousel-video iframe {
+        height: 250px;
+    }
+
+    .carousel-content {
+        width: 100%;
+        padding: 0;
     }
 
     .slide-content {
