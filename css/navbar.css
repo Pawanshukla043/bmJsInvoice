@@ -36,6 +36,7 @@
 .nav-logo img {
     height: 40px;
     width: auto;
+    border-radius: 10px;
 }
 
 .nav-menu {
@@ -94,9 +95,8 @@
 }
 
 .login-btn:hover {
-    background: #d63850;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .user-profile {
@@ -153,6 +153,113 @@
     color: var(--primary-color);
 }
 
+.profile-theme-section {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-theme-section h4 {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.profile-theme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.profile-theme-option {
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.profile-theme-option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.profile-theme-option.active {
+    border-color: var(--highlight-color);
+    background: rgba(53, 36, 135, 0.05);
+}
+
+.profile-theme-option.active::after {
+    content: '✓';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: var(--highlight-color);
+    color: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.profile-theme-preview {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.profile-theme-name {
+    font-size: 0.75rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.profile-theme-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.theme-apply-btn,
+.theme-cancel-btn {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.theme-apply-btn {
+    background: var(--highlight-color);
+    color: white;
+}
+
+.theme-apply-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.theme-cancel-btn {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.theme-cancel-btn:hover {
+    background: #e0e0e0;
+}
+
 .logout-btn {
     width: 100%;
     background: var(--highlight-color);
@@ -165,7 +272,7 @@
 }
 
 .logout-btn:hover {
-    background: #d63850;
+    opacity: 0.9;
 }
 
 .hamburger {
@@ -265,7 +372,7 @@
     }
 
     .mobile-profile .logout-btn:hover {
-        background: #d63850;
+        opacity: 0.9;
     }
 }
 

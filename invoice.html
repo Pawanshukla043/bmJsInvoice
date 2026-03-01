@@ -6,6 +6,7 @@
     <title>Generate Invoice - Bluemoon Production</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/invoice.css">
+    <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background: #f5f5f5; padding: 20px; }
@@ -16,12 +17,16 @@
         .back-btn { 
             display: inline-block; 
             padding: 10px 20px; 
-            background: #e94560; 
+            background: var(--highlight-color); 
             color: white; 
             text-decoration: none; 
             border-radius: 5px;
+            transition: all 0.3s;
         }
-        .back-btn:hover { background: #d63850; }
+        .back-btn:hover { 
+            background: var(--accent-color); 
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -237,6 +242,7 @@
 
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/invoice.js"></script>
 </body>
 </html>
