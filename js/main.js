@@ -204,8 +204,8 @@ function showUserProfile(user) {
     document.getElementById('loginBtn').style.display = 'none';
     document.getElementById('userProfile').style.display = 'block';
     
-    // Show invoice menu only if role is Admin
-    if (user.role == 'Admin') {
+    // Show invoice menu only if role is admin (case-insensitive)
+    if (user.role && user.role.toLowerCase() === 'admin') {
         document.querySelector('.invoice-menu').style.display = 'block';
     } else {
         document.querySelector('.invoice-menu').style.display = 'none';
@@ -217,6 +217,14 @@ function showUserProfile(user) {
     
     // Add mobile profile to menu
     addMobileProfile(user);
+    
+    // Initialize theme in profile dropdown
+    if (window.themeManager) {
+        setTimeout(() => {
+            window.themeManager.addThemeToProfile();
+            window.themeManager.checkAdminAccess();
+        }, 100);
+    }
 }
 
 function addMobileProfile(user) {

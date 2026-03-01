@@ -151,6 +151,9 @@ loginFormElement.addEventListener('submit', async (e) => {
                 authModal.style.display = 'none';
                 showUserProfile(user);
                 loginFormElement.reset();
+                if (window.themeManager) {
+                    window.themeManager.checkAdminAccess();
+                }
             }, 1000);
         } else {
             // Check if it's an inactive account error
@@ -181,6 +184,9 @@ loginFormElement.addEventListener('submit', async (e) => {
             authModal.style.display = 'none';
             showUserProfile(testUser);
             loginFormElement.reset();
+            if (window.themeManager) {
+                window.themeManager.checkAdminAccess();
+            }
         }, 1000);
     }
 });
@@ -189,6 +195,9 @@ loginFormElement.addEventListener('submit', async (e) => {
 logoutBtn.addEventListener('click', async () => {
     localStorage.removeItem('user');
     hideUserProfile();
+    if (window.themeManager) {
+        window.themeManager.checkAdminAccess();
+    }
     await customAlert('Logged out successfully!', 'Success', '✓');
 });
 

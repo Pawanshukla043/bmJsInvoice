@@ -1,0 +1,356 @@
+/* Theme Switcher Styles - Hidden (moved to profile dropdown) */
+.theme-switcher {
+    display: none !important;
+}
+
+/* Theme Previews */
+.theme-purple, .profile-theme-preview.theme-purple { background: linear-gradient(135deg, #352487 0%, #5a3fb5 100%); }
+.theme-pink, .profile-theme-preview.theme-pink { background: linear-gradient(135deg, #e94560 0%, #ff6b88 100%); }
+.theme-holi, .profile-theme-preview.theme-holi { background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 25%, #6bcf7f 50%, #4d96ff 75%, #ff6bff 100%); }
+.theme-diwali, .profile-theme-preview.theme-diwali { background: linear-gradient(135deg, #ff6f00 0%, #ffd54f 50%, #bf360c 100%); }
+.theme-independence, .profile-theme-preview.theme-independence { background: linear-gradient(to bottom, #ff9933 0%, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%, #138808 100%); }
+.theme-dark, .profile-theme-preview.theme-dark { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+.theme-light, .profile-theme-preview.theme-light { background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); border: 1px solid #ddd; }
+
+/* Theme Action Buttons */
+.profile-theme-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.theme-apply-btn,
+.theme-cancel-btn {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.theme-apply-btn {
+    background: var(--highlight-color);
+    color: white;
+}
+
+.theme-apply-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.theme-cancel-btn {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.theme-cancel-btn:hover {
+    background: #e0e0e0;
+}
+
+/* Theme Effects Container */
+.theme-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Holi Theme Effects */
+.holi-balloons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.holi-balloon {
+    position: absolute;
+    font-size: 40px;
+    animation: holiFloat 10s infinite linear;
+}
+
+@keyframes holiFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.holi-gulal {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: gulalSpray 1.5s ease-out forwards;
+    z-index: 10000;
+}
+
+@keyframes gulalSpray {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Holi Background */
+[data-theme-effect="holi"] body {
+    background: linear-gradient(135deg, #fff9e6 0%, #ffe0f0 25%, #e0f7ff 50%, #fff0e0 75%, #f0e0ff 100%);
+    background-size: 400% 400%;
+    animation: holiBackground 15s ease infinite;
+}
+
+@keyframes holiBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Diwali Theme Effects */
+.diwali-lights {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.diwali-light {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffd700 0%, #ff6f00 100%);
+    box-shadow: 0 0 20px #ffd700;
+    animation: diwaliTwinkle 1.5s infinite alternate;
+}
+
+@keyframes diwaliTwinkle {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+        box-shadow: 0 0 10px #ffd700;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+        box-shadow: 0 0 30px #ffd700;
+    }
+}
+
+.diwali-sparkles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.diwali-sparkle {
+    position: absolute;
+    font-size: 24px;
+    animation: sparkleFloat 4s infinite ease-in-out;
+    filter: drop-shadow(0 0 5px #ffd700);
+}
+
+@keyframes sparkleFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg) scale(1.3);
+        opacity: 1;
+    }
+}
+
+.diwali-spark {
+    position: fixed;
+    font-size: 16px;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: sparkBurst 1s ease-out forwards;
+    z-index: 10000;
+}
+
+@keyframes sparkBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.diwali-footer-diyas {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+.diwali-footer-diyas span {
+    animation: diyaGlow 2s infinite alternate;
+}
+
+@keyframes diyaGlow {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 5px #ff6f00);
+    }
+    100% {
+        filter: brightness(1.5) drop-shadow(0 0 15px #ffd700);
+    }
+}
+
+/* Diwali Background */
+[data-theme-effect="diwali"] body {
+    background: radial-gradient(circle at 20% 50%, #1a0800 0%, #000000 100%);
+}
+
+[data-theme-effect="diwali"] .navbar {
+    background: var(--primary-color) !important;
+}
+
+[data-theme-effect="diwali"] .home-section {
+    margin-top: 70px;
+}
+
+[data-theme-effect="diwali"] .container,
+[data-theme-effect="diwali"] section {
+    position: relative;
+    z-index: 2;
+}
+
+/* India Theme Effects */
+.india-flags {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.india-flag {
+    position: absolute;
+    font-size: 40px;
+    animation: indiaFloat 10s infinite linear;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+@keyframes indiaFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+[data-theme-effect="india"] .navbar {
+    background: linear-gradient(to bottom, #ff9933 0%, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%, #138808 100%) !important;
+}
+
+[data-theme-effect="india"] .navbar .nav-logo,
+[data-theme-effect="india"] .navbar .nav-link {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.india-footer-decoration {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+    font-size: 30px;
+    border-top: 3px solid #ff9933;
+    border-bottom: 3px solid #138808;
+    background: linear-gradient(to right, #ff9933 0%, #ffffff 50%, #138808 100%);
+    margin-bottom: 20px;
+}
+
+.india-footer-decoration span {
+    animation: indiaGlow 2s infinite alternate;
+}
+
+@keyframes indiaGlow {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255, 153, 51, 0.5));
+    }
+    100% {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 15px rgba(255, 153, 51, 1));
+    }
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --primary-color: #2d2d2d;
+    --secondary-color: #1a1a1a;
+    --accent-color: #404040;
+    --highlight-color: #bb86fc;
+    --text-light: #ffffff;
+    --text-dark: #e0e0e0;
+    --bg-light: #121212;
+}
+
+[data-theme="dark"] body {
+    background: #121212;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .contact-form,
+[data-theme="dark"] .invoice-form,
+[data-theme="dark"] .modal-content {
+    background: #1e1e1e;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea,
+[data-theme="dark"] .form-group select {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border-color: #404040;
+}
+
+[data-theme="dark"] .items-table th {
+    background: #2d2d2d;
+}
+
+[data-theme="dark"] .items-table td {
+    background: #1e1e1e;
+    border-color: #404040;
+}
