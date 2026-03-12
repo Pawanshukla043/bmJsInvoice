@@ -15,13 +15,13 @@ const THEMES = {
     pink: {
         name: 'Pink',
         colors: {
-            primary: '#1a1a2e',
-            secondary: '#16213e',
-            accent: '#0f3460',
-            highlight: '#e94560',
+            primary: '#c2185b',
+            secondary: '#880e4f',
+            accent: '#f06292',
+            highlight: '#e91e63',
             textLight: '#ffffff',
             textDark: '#333333',
-            bgLight: '#f5f5f5'
+            bgLight: '#fce4ec'
         }
     },
     holi: {
@@ -73,18 +73,6 @@ const THEMES = {
             textLight: '#ffffff',
             textDark: '#e0e0e0',
             bgLight: '#121212'
-        }
-    },
-    light: {
-        name: 'Light',
-        colors: {
-            primary: '#1a1a2e',
-            secondary: '#16213e',
-            accent: '#0f3460',
-            highlight: '#2196f3',
-            textLight: '#ffffff',
-            textDark: '#333333',
-            bgLight: '#f5f5f5'
         }
     }
 };

@@ -197,6 +197,30 @@ window.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
         showUserProfile(user);
+    } else {
+        showMobileLogin();
+    }
+});
+
+// Handle window resize to show/hide mobile elements
+window.addEventListener('resize', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        // If logged in, ensure mobile profile is shown on mobile, hidden on desktop
+        const mobileProfile = document.querySelector('.mobile-profile');
+        if (window.innerWidth <= 768 && !mobileProfile) {
+            addMobileProfile(user);
+        } else if (window.innerWidth > 768 && mobileProfile) {
+            mobileProfile.remove();
+        }
+    } else {
+        // If logged out, ensure mobile login is shown on mobile, hidden on desktop
+        const mobileLogin = document.querySelector('.mobile-login');
+        if (window.innerWidth <= 768 && !mobileLogin) {
+            showMobileLogin();
+        } else if (window.innerWidth > 768 && mobileLogin) {
+            mobileLogin.remove();
+        }
     }
 });
 
@@ -215,7 +239,8 @@ function showUserProfile(user) {
     document.getElementById('profileEmail').textContent = user.email;
     document.getElementById('profileStage').textContent = user.stageName ? `Stage: ${user.stageName}` : '';
     
-    // Add mobile profile to menu
+    // Remove mobile login and add mobile profile
+    removeMobileLogin();
     addMobileProfile(user);
     
     // Initialize theme in profile dropdown
@@ -232,29 +257,151 @@ function addMobileProfile(user) {
     const existingMobile = document.querySelector('.mobile-profile');
     if (existingMobile) existingMobile.remove();
     
-    // Create mobile profile element
-    const mobileProfile = document.createElement('li');
-    mobileProfile.className = 'mobile-profile';
-    mobileProfile.innerHTML = `
-        <div class="profile-info">
-            <p><strong>${user.fullName}</strong></p>
-            <p>${user.email}</p>
-            ${user.stageName ? `<p>Stage: ${user.stageName}</p>` : ''}
-        </div>
-        <button class="logout-btn" id="mobileLogoutBtn">Logout</button>
-    `;
+    // Only add mobile profile on mobile screens
+    if (window.innerWidth <= 768) {
+        // Get current theme
+        const currentTheme = localStorage.getItem('selectedTheme') || 'purple';
+        
+        // Check if user is admin
+        const isAdmin = user.role && user.role.toLowerCase() === 'admin';
+        
+        // Create theme section HTML (only for admin)
+        const themeSection = isAdmin ? `
+            <div class="mobile-theme-section">
+                <h4>🎨 Select Theme</h4>
+                <div class="mobile-theme-list">
+                    <div class="mobile-theme-item ${currentTheme === 'purple' ? 'active' : ''}" data-theme="purple">
+                        <div class="mobile-theme-circle theme-purple"></div>
+                        <span class="mobile-theme-label">Purple</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'pink' ? 'active' : ''}" data-theme="pink">
+                        <div class="mobile-theme-circle theme-pink"></div>
+                        <span class="mobile-theme-label">Pink</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'holi' ? 'active' : ''}" data-theme="holi">
+                        <div class="mobile-theme-circle theme-holi"></div>
+                        <span class="mobile-theme-label">Holi</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'diwali' ? 'active' : ''}" data-theme="diwali">
+                        <div class="mobile-theme-circle theme-diwali"></div>
+                        <span class="mobile-theme-label">Diwali</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'independence' ? 'active' : ''}" data-theme="independence">
+                        <div class="mobile-theme-circle theme-independence"></div>
+                        <span class="mobile-theme-label">Independence</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'dark' ? 'active' : ''}" data-theme="dark">
+                        <div class="mobile-theme-circle theme-dark"></div>
+                        <span class="mobile-theme-label">Dark</span>
+                    </div>
+                    <div class="mobile-theme-item ${currentTheme === 'light' ? 'active' : ''}" data-theme="light">
+                        <div class="mobile-theme-circle theme-light"></div>
+                        <span class="mobile-theme-label">Light</span>
+                    </div>
+                </div>
+                <div class="mobile-theme-buttons">
+                    <button class="mobile-theme-cancel-btn" id="mobileThemeCancelBtn">Cancel</button>
+                    <button class="mobile-theme-apply-btn" id="mobileThemeApplyBtn">Apply</button>
+                </div>
+            </div>
+        ` : '';
+        
+        // Create mobile profile element
+        const mobileProfile = document.createElement('li');
+        mobileProfile.className = 'mobile-profile';
+        mobileProfile.innerHTML = `
+            <div class="profile-info">
+                <p><strong>${user.fullName}</strong></p>
+                <p>${user.email}</p>
+                ${user.stageName ? `<p>Stage: ${user.stageName}</p>` : ''}
+            </div>
+            ${themeSection}
+            <button class="logout-btn" id="mobileLogoutBtn">Logout</button>
+        `;
+        
+        // Add to nav menu
+        navMenu.appendChild(mobileProfile);
+        
+        // Add theme selection handlers (only for admin)
+        if (isAdmin) {
+            let selectedTheme = currentTheme;
+            
+            mobileProfile.querySelectorAll('.mobile-theme-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    selectedTheme = item.dataset.theme;
+                    
+                    mobileProfile.querySelectorAll('.mobile-theme-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                });
+            });
+            
+            document.getElementById('mobileThemeApplyBtn').addEventListener('click', async () => {
+                if (window.themeManager) {
+                    window.themeManager.switchTheme(selectedTheme);
+                    await customAlert('Theme applied successfully!', 'Success', '🎨');
+                }
+            });
+            
+            document.getElementById('mobileThemeCancelBtn').addEventListener('click', () => {
+                // Reset to current theme
+                selectedTheme = currentTheme;
+                mobileProfile.querySelectorAll('.mobile-theme-item').forEach(i => {
+                    i.classList.remove('active');
+                    if (i.dataset.theme === currentTheme) {
+                        i.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // Add logout handler
+        document.getElementById('mobileLogoutBtn').addEventListener('click', async () => {
+            localStorage.removeItem('user');
+            hideUserProfile();
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            await customAlert('Logged out successfully!', 'Success', '✓');
+        });
+    }
+}
+
+function showMobileLogin() {
+    // Remove existing mobile login if any
+    const existingLogin = document.querySelector('.mobile-login');
+    if (existingLogin) existingLogin.remove();
     
-    // Add to nav menu
-    navMenu.appendChild(mobileProfile);
-    
-    // Add logout handler
-    document.getElementById('mobileLogoutBtn').addEventListener('click', async () => {
-        localStorage.removeItem('user');
-        hideUserProfile();
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        await customAlert('Logged out successfully!', 'Success', '✓');
-    });
+    // Only add mobile login on mobile screens
+    if (window.innerWidth <= 768) {
+        // Create mobile login element
+        const mobileLogin = document.createElement('li');
+        mobileLogin.className = 'mobile-login';
+        mobileLogin.innerHTML = `
+            <button class="login-btn" id="mobileLoginBtn">Login</button>
+        `;
+        
+        // Add to nav menu
+        navMenu.appendChild(mobileLogin);
+        
+        // Add login handler
+        document.getElementById('mobileLoginBtn').addEventListener('click', () => {
+            // Access authModal from window (set in auth.js)
+            if (window.authModal) {
+                window.authModal.style.display = 'block';
+                if (window.showLoginForm) {
+                    window.showLoginForm();
+                }
+            }
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    }
+}
+
+function removeMobileLogin() {
+    const mobileLogin = document.querySelector('.mobile-login');
+    if (mobileLogin) mobileLogin.remove();
 }
 
 function hideUserProfile() {
@@ -262,9 +409,11 @@ function hideUserProfile() {
     document.getElementById('userProfile').style.display = 'none';
     document.querySelector('.invoice-menu').style.display = 'none';
     
-    // Remove mobile profile
+    // Remove mobile profile and show mobile login
     const mobileProfile = document.querySelector('.mobile-profile');
     if (mobileProfile) mobileProfile.remove();
+    
+    showMobileLogin();
 }
 
 // Service cards hover effect

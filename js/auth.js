@@ -48,6 +48,10 @@ function showSignupForm() {
     signupForm.style.display = 'block';
 }
 
+// Make authModal and showLoginForm globally accessible for mobile login
+window.authModal = authModal;
+window.showLoginForm = showLoginForm;
+
 // Signup Form Submission
 signupFormElement.addEventListener('submit', async (e) => {
     e.preventDefault();
