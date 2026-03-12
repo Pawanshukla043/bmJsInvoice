@@ -22,7 +22,8 @@ const THEMES = {
             textLight: '#ffffff',
             textDark: '#333333',
             bgLight: '#fce4ec'
-        }
+        },
+        effects: 'pink'
     },
     holi: {
         name: 'Holi',
@@ -158,8 +159,9 @@ class ThemeManager {
     switchTheme(themeName) {
         this.currentTheme = themeName;
         this.selectedTheme = themeName;
-        this.applyTheme(themeName);
         this.saveTheme(themeName);
+        // Reload page to apply theme properly
+        window.location.reload();
     }
 
     applyTheme(themeName) {
@@ -210,6 +212,8 @@ class ThemeManager {
             this.createDiwaliEffect();
         } else if (effect === 'india') {
             this.createIndiaEffect();
+        } else if (effect === 'pink') {
+            this.createPinkEffect();
         }
     }
 
@@ -342,6 +346,11 @@ class ThemeManager {
             });
             footer.insertBefore(decoration, footer.firstChild);
         }
+    }
+
+    createPinkEffect() {
+        // Pink theme effect - set data attribute
+        document.body.setAttribute('data-theme-effect', 'pink');
     }
 }
 

@@ -294,10 +294,6 @@ function addMobileProfile(user) {
                         <div class="mobile-theme-circle theme-dark"></div>
                         <span class="mobile-theme-label">Dark</span>
                     </div>
-                    <div class="mobile-theme-item ${currentTheme === 'light' ? 'active' : ''}" data-theme="light">
-                        <div class="mobile-theme-circle theme-light"></div>
-                        <span class="mobile-theme-label">Light</span>
-                    </div>
                 </div>
                 <div class="mobile-theme-buttons">
                     <button class="mobile-theme-cancel-btn" id="mobileThemeCancelBtn">Cancel</button>
