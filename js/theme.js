@@ -15,14 +15,15 @@ const THEMES = {
     pink: {
         name: 'Pink',
         colors: {
-            primary: '#1a1a2e',
-            secondary: '#16213e',
-            accent: '#0f3460',
-            highlight: '#e94560',
+            primary: '#c2185b',
+            secondary: '#880e4f',
+            accent: '#f06292',
+            highlight: '#e91e63',
             textLight: '#ffffff',
             textDark: '#333333',
-            bgLight: '#f5f5f5'
-        }
+            bgLight: '#fce4ec'
+        },
+        effects: 'pink'
     },
     holi: {
         name: 'Holi',
@@ -73,18 +74,6 @@ const THEMES = {
             textLight: '#ffffff',
             textDark: '#e0e0e0',
             bgLight: '#121212'
-        }
-    },
-    light: {
-        name: 'Light',
-        colors: {
-            primary: '#1a1a2e',
-            secondary: '#16213e',
-            accent: '#0f3460',
-            highlight: '#2196f3',
-            textLight: '#ffffff',
-            textDark: '#333333',
-            bgLight: '#f5f5f5'
         }
     }
 };
@@ -170,8 +159,9 @@ class ThemeManager {
     switchTheme(themeName) {
         this.currentTheme = themeName;
         this.selectedTheme = themeName;
-        this.applyTheme(themeName);
         this.saveTheme(themeName);
+        // Reload page to apply theme properly
+        window.location.reload();
     }
 
     applyTheme(themeName) {
@@ -222,6 +212,8 @@ class ThemeManager {
             this.createDiwaliEffect();
         } else if (effect === 'india') {
             this.createIndiaEffect();
+        } else if (effect === 'pink') {
+            this.createPinkEffect();
         }
     }
 
@@ -354,6 +346,11 @@ class ThemeManager {
             });
             footer.insertBefore(decoration, footer.firstChild);
         }
+    }
+
+    createPinkEffect() {
+        // Pink theme effect - set data attribute
+        document.body.setAttribute('data-theme-effect', 'pink');
     }
 }
 
