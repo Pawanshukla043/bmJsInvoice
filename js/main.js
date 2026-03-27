@@ -88,6 +88,9 @@ function showSlide(n) {
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
     
+    // Animate wave bars on slide change
+    if (window.animateWaveBarsOnSlide) window.animateWaveBarsOnSlide();
+    
     // Scroll to slide on mobile
     if (window.innerWidth <= 768) {
         sliderContainer.scrollTo({
