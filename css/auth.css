@@ -1,38 +1,70 @@
-.auth-form {
+.modal-content {
     position: relative;
+    background: rgba(8, 8, 20, 0.97);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255,255,255,0.08);
+    margin: 5% auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 60px rgba(53,36,135,0.2);
+    animation: slideDown 0.3s;
 }
 
 .auth-form h2 {
     text-align: center;
-    color: var(--primary-color);
+    color: #fff;
     margin-bottom: 30px;
     font-size: 2rem;
-}
-
-.auth-form .form-group {
-    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff, var(--highlight-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .auth-form .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: var(--primary-color);
+    color: rgba(255,255,255,0.7);
     font-weight: 600;
 }
 
 .auth-form .form-group input {
     width: 100%;
     padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
     font-size: 1rem;
+    color: #fff;
     transition: all 0.3s;
 }
 
 .auth-form .form-group input:focus {
     outline: none;
     border-color: var(--highlight-color);
-    box-shadow: 0 0 10px rgba(53, 36, 135, 0.2);
+    box-shadow: 0 0 20px rgba(53, 36, 135, 0.4);
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    color: rgba(255,255,255,0.5);
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px; top: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    transition: all 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--highlight-color);
+    transform: rotate(90deg);
 }
 
 .auth-submit-btn {

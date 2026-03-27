@@ -87,74 +87,11 @@ class ThemeManager {
 
     init() {
         this.applyTheme(this.currentTheme);
-        this.addThemeToProfile();
     }
 
-    addThemeToProfile() {
-        const profileDropdown = document.querySelector('.profile-dropdown');
-        if (!profileDropdown) return;
+    addThemeToProfile() { /* theme switcher hidden */ }
 
-        const existingThemeSection = profileDropdown.querySelector('.profile-theme-section');
-        if (existingThemeSection) return;
-
-        const themeSection = document.createElement('div');
-        themeSection.className = 'profile-theme-section';
-        themeSection.innerHTML = `
-            <h4>🎨 Theme</h4>
-            <div class="profile-theme-grid">
-                ${Object.keys(THEMES).map(key => `
-                    <div class="profile-theme-option ${this.currentTheme === key ? 'active' : ''}" data-theme="${key}">
-                        <div class="profile-theme-preview theme-${key}"></div>
-                        <div class="profile-theme-name">${THEMES[key].name}</div>
-                    </div>
-                `).join('')}
-            </div>
-            <div class="profile-theme-actions">
-                <button class="theme-apply-btn" id="themeApplyBtn">Apply</button>
-                <button class="theme-cancel-btn" id="themeCancelBtn">Cancel</button>
-            </div>
-        `;
-
-        const logoutBtn = profileDropdown.querySelector('.logout-btn');
-        profileDropdown.insertBefore(themeSection, logoutBtn);
-
-        profileDropdown.querySelectorAll('.profile-theme-option').forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.selectedTheme = option.dataset.theme;
-                
-                profileDropdown.querySelectorAll('.profile-theme-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                option.classList.add('active');
-            });
-        });
-
-        document.getElementById('themeApplyBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.switchTheme(this.selectedTheme);
-        });
-
-        document.getElementById('themeCancelBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.selectedTheme = this.currentTheme;
-            profileDropdown.querySelectorAll('.profile-theme-option').forEach(opt => {
-                opt.classList.remove('active');
-                if (opt.dataset.theme === this.currentTheme) {
-                    opt.classList.add('active');
-                }
-            });
-        });
-    }
-
-    checkAdminAccess() {
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const themeSection = document.querySelector('.profile-theme-section');
-        
-        if (themeSection) {
-            themeSection.style.display = (user.role && user.role.toLowerCase() === 'admin') ? 'block' : 'none';
-        }
-    }
+    checkAdminAccess() { /* theme switcher hidden */ }
 
     switchTheme(themeName) {
         this.currentTheme = themeName;
