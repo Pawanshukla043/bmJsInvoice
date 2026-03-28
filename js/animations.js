@@ -1,6 +1,5 @@
 // ============================================================
 //   BLUEMOON PRODUCTION — CRAZY 3D MUSIC EXPERIENCE
-//   Inspired by peachweb.io — full immersive music world
 // ============================================================
 
 // ---- 1. CUSTOM CURSOR ----
@@ -191,7 +190,7 @@ function createFooterEqualizer() {
     footerIcons.parentElement.insertBefore(eq, footerIcons);
 }
 
-// ---- 7. 3D CARD TILT (mouse tracking) ----
+// ---- 7. 3D CARD TILT (original — desktop mouse tracking on card) ----
 function init3DCardTilt() {
     document.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('mousemove', e => {
@@ -206,6 +205,20 @@ function init3DCardTilt() {
         });
         card.addEventListener('mouseleave', () => {
             card.style.transform = '';
+        });
+    });
+}
+
+// ---- 7b. MOBILE CARD FLIP (tap to reveal back face) ----
+function initMobileCardFlip() {
+    if (window.innerWidth > 768) return;
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const isFlipped = card.classList.contains('flipped');
+            // Close all cards first
+            document.querySelectorAll('.service-card.flipped').forEach(c => c.classList.remove('flipped'));
+            // Open clicked one only if it wasn't already open
+            if (!isFlipped) card.classList.add('flipped');
         });
     });
 }
@@ -341,6 +354,7 @@ function initAll() {
     createVinylRecord();
     createFooterEqualizer();
     init3DCardTilt();
+    initMobileCardFlip();
     initMagneticButtons();
     initGlitchText();
     initScrollReveal();
