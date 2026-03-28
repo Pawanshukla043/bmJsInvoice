@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/invoice.css">
     <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +20,26 @@
     </style>
 </head>
 <body>
+    <!-- Admin Sidebar -->
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-header">
+            <i class="fas fa-moon logo-icon"></i>
+        </div>
+        <ul class="admin-menu">
+            <li class="admin-menu-item">
+                <a href="admin-manue/invoice.html">
+                    <i class="fas fa-file-invoice-dollar icon"></i>
+                    <span class="text">Invoice Generator</span>
+                </a>
+            </li>
+            <li class="admin-menu-item">
+                <a href="admin-manue/invoice-list.html" id="adminViewInvoices">
+                    <i class="fas fa-list-alt icon"></i>
+                    <span class="text">View Invoices</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <!-- Navigation Bar -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -39,7 +60,6 @@
                 <li><a href="#clients" class="nav-link">Our Clients</a></li>
                 <li><a href="#about" class="nav-link">About Us</a></li>
                 <li><a href="#contact" class="nav-link">Contact Us</a></li>
-                <li class="invoice-menu" style="display: none;"><a href="invoice.html" target="_blank" class="nav-link">Generate Invoice</a></li>
             </ul>
             
             <div class="nav-auth">
@@ -557,7 +577,6 @@
     <script src="js/theme.js"></script>
     <script src="js/main.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/invoice.js"></script>
     <script src="js/animations.js"></script>
 </body>
 </html>

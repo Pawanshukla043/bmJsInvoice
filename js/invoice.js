@@ -1,3 +1,20 @@
+// Page Protection and Admin View
+document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    // Redirect non-admins back to home page (only if on the invoice page)
+    if (window.location.pathname.includes('invoice.html')) {
+        if (!user || !user.role || user.role.toLowerCase() !== 'admin') {
+            window.location.href = '../index.html';
+            return;
+        }
+    }
+    
+    if (user && user.role && user.role.toLowerCase() === 'admin') {
+        document.body.classList.add('admin-view');
+    }
+});
+
 // Invoice form functionality
 const invoiceForm = document.getElementById('invoiceForm');
 const itemsBody = document.getElementById('itemsBody');
