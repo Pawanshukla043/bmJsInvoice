@@ -108,17 +108,24 @@ body {
     background: var(--highlight-color);
     color: white;
     border: none;
-    padding: 15px 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 20px;
-    transition: all 0.3s;
+    font-size: 18px;
+    transition: all 0.3s ease;
     z-index: 10;
-    opacity: 0.8;
+    opacity: 0.85;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .slider-btn:hover {
-    background: var(--highlight-color);
     transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 20px var(--highlight-color);
 }
 
 .slider-btn.prev {
@@ -431,17 +438,24 @@ body {
     background: var(--highlight-color);
     color: white;
     border: none;
-    padding: 15px 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 20px;
-    transition: all 0.3s;
+    font-size: 18px;
+    transition: all 0.3s ease;
     z-index: 10;
-    opacity: 0.8;
+    opacity: 0.85;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-btn:hover {
-    background: var(--highlight-color);
     transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 20px var(--highlight-color);
 }
 
 .carousel-btn.prev {
@@ -727,23 +741,6 @@ body {
     .footer-equalizer { display: none; }
 
     /* Slider mobile responsive */
-    .slider-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-    }
-
-    .slider {
-        display: flex;
-        width: auto;
-    }
-
-    .slide {
-        position: relative;
-        min-width: 100%;
-        scroll-snap-align: start;
-        opacity: 1;
-    }
 
     .slider-btn {
         display: none;
@@ -751,10 +748,6 @@ body {
 
     .slider-dots {
         bottom: 10px;
-    }
-
-    .dot {
-        display: none;
     }
 
     /* Carousel mobile responsive */

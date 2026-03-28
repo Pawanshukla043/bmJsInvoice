@@ -90,14 +90,6 @@ function showSlide(n) {
     
     // Animate wave bars on slide change
     if (window.animateWaveBarsOnSlide) window.animateWaveBarsOnSlide();
-    
-    // Scroll to slide on mobile
-    if (window.innerWidth <= 768) {
-        sliderContainer.scrollTo({
-            left: currentSlide * sliderContainer.offsetWidth,
-            behavior: 'smooth'
-        });
-    }
 }
 
 function changeSlide(n) {
@@ -129,19 +121,32 @@ if (window.innerWidth > 768) {
     sliderContainer.addEventListener('mouseleave', startAutoSlide);
 }
 
-// Update slide on manual scroll (mobile)
-if (window.innerWidth <= 768) {
-    sliderContainer.addEventListener('scroll', () => {
-        const scrollPosition = sliderContainer.scrollLeft;
-        const slideWidth = sliderContainer.offsetWidth;
-        const newSlide = Math.round(scrollPosition / slideWidth);
-        
-        if (newSlide !== currentSlide) {
-            currentSlide = newSlide;
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[currentSlide].classList.add('active');
-        }
-    });
+// Touch swipe support for mobile slider
+let touchStartX = 0;
+let touchEndX = 0;
+
+sliderContainer.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+sliderContainer.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    const swipeThreshold = 50;
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe left (next)
+        stopAutoSlide();
+        changeSlide(1);
+        startAutoSlide();
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe right (prev)
+        stopAutoSlide();
+        changeSlide(-1);
+        startAutoSlide();
+    }
 }
 
 // Clients Carousel
