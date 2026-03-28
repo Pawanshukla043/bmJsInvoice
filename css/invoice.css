@@ -666,3 +666,157 @@ body {
 
     #totalWords { max-width: 100%; text-align: left; }
 }
+
+/* ============================================================
+   INVOICE LIST PAGE (STANDALONE)
+   ============================================================ */
+
+.invoice-list-header {
+    background: linear-gradient(135deg, rgba(53,36,135,0.7), rgba(106,61,232,0.5));
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.invoice-list-header h1 {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #fff 0%, var(--highlight-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5rem;
+}
+
+.invoice-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.08);
+    transform-style: preserve-3d;
+    transition: all 0.4s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    background: rgba(53,36,135,0.1);
+    border-color: var(--highlight-color);
+    box-shadow: 0 10px 30px rgba(53,36,135,0.3);
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    background: linear-gradient(135deg, #fff, var(--highlight-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.no-invoices {
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.2rem;
+    padding: 60px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 16px;
+    border: 1px dashed rgba(255,255,255,0.05);
+}
+
+.generate-new-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--highlight-color), #6a3de8);
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.generate-new-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(53,36,135,0.5);
+}
+
+#invoiceList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.invoice-card {
+    background: rgba(255,255,255,0.03);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transform-style: preserve-3d;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.invoice-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: left 0.5s;
+}
+
+.invoice-card:hover::before {
+    left: 100%;
+}
+
+.invoice-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(53,36,135,0.5);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 0 20px rgba(53,36,135,0.2);
+}
+
+.invoice-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.invoice-amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #5dde7a;
+    margin: 20px 0;
+    text-shadow: 0 0 15px rgba(93, 222, 122, 0.3);
+}

@@ -238,9 +238,9 @@ function showUserProfile(user) {
     
     // Show invoice menu only if role is admin (case-insensitive)
     if (user.role && user.role.toLowerCase() === 'admin') {
-        document.querySelector('.invoice-menu').style.display = 'block';
+        document.body.classList.add('admin-view');
     } else {
-        document.querySelector('.invoice-menu').style.display = 'none';
+        document.body.classList.remove('admin-view');
     }
     
     document.getElementById('profileName').textContent = user.fullName;
@@ -411,7 +411,7 @@ function removeMobileLogin() {
 function hideUserProfile() {
     document.getElementById('loginBtn').style.display = 'block';
     document.getElementById('userProfile').style.display = 'none';
-    document.querySelector('.invoice-menu').style.display = 'none';
+    document.body.classList.remove('admin-view');
     
     // Remove mobile profile and show mobile login
     const mobileProfile = document.querySelector('.mobile-profile');
@@ -453,3 +453,18 @@ document.querySelectorAll('.service-card').forEach(card => {
     card.style.transition = 'all 0.6s ease-out';
     observer.observe(card);
 });
+
+// Admin Sidebar interactivity
+const adminSidebar = document.getElementById('adminSidebar');
+if (adminSidebar) {
+    adminSidebar.addEventListener('mouseenter', () => {
+        if (window.innerWidth > 768) {
+            adminSidebar.classList.add('expanded');
+        }
+    });
+    adminSidebar.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 768) {
+            adminSidebar.classList.remove('expanded');
+        }
+    });
+}
