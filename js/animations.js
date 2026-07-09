@@ -3,6 +3,8 @@
 // ============================================================
 
 // ---- 1. CUSTOM CURSOR ----
+// COMMENTED OUT - Using default mouse cursor
+/*
 function initCursor() {
     if (window.innerWidth <= 768) return;
 
@@ -33,6 +35,7 @@ function initCursor() {
         el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
     });
 }
+*/
 
 // ---- 2. PARTICLE TRAIL ON MOUSE MOVE ----
 function initParticleTrail() {
@@ -348,7 +351,7 @@ function initStatsCounter() {
 // ---- INIT ALL ----
 function initAll() {
     initBgCanvas();
-    initCursor();
+    // initCursor(); // COMMENTED OUT - Using default mouse cursor
     initParticleTrail();
     createSoundWave();
     createVinylRecord();
